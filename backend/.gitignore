@@ -11,8 +11,10 @@
 #data
 hotels.json
 users.json
+buffets.json
 /hotels.json
 /users.json
+/buffets.json
 /public/uploads/*
 
 # production

@@ -229,6 +229,79 @@ app.post("/login", (req, res) => {
   });
 });
 
+app.post("/addBuffet", (req, res) => {
+  const { buffetname, price, items, mealtype, hotelId } = req.body;
+
+  if (!buffetname || !price || !Array.isArray(items) || !mealtype || !hotelId) {
+    return res.status(400).json({ error: "Missing or invalid buffet fields" });
+  }
+
+  const buffet = {
+    buffetId: "BUF-" + Date.now(),
+    buffetname,
+    price,
+    items,
+    mealtype,
+    hotelId,
+  };
+
+  const filePath = "buffets.json";
+  let buffets = [];
+
+  if (fs.existsSync(filePath)) {
+    try {
+      const data = fs.readFileSync(filePath);
+      buffets = JSON.parse(data);
+    } catch {
+      buffets = [];
+    }
+  }
+
+  buffets.push(buffet);
+  fs.writeFileSync(filePath, JSON.stringify(buffets, null, 2));
+
+  res.json({ message: "Buffet added successfully", buffet });
+});
+
+app.get("/getBuffets", (req, res) => {
+  const filePath = "buffets.json";
+  if (!fs.existsSync(filePath)) return res.json([]);
+
+  try {
+    const data = fs.readFileSync(filePath);
+    const buffets = JSON.parse(data);
+    res.json(buffets);
+  } catch {
+    res.status(500).json({ error: "Failed to read buffet data" });
+  }
+});
+
+// DELETE /deleteBuffet/:buffetId — delete buffet by ID
+app.delete("/deleteBuffet/:buffetId", (req, res) => {
+  const { buffetId } = req.params;
+  const filePath = "buffets.json";
+
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).json({ error: "Buffet data not found" });
+  }
+
+  let buffets = [];
+  try {
+    const data = fs.readFileSync(filePath);
+    buffets = JSON.parse(data);
+  } catch {
+    return res.status(500).json({ error: "Failed to read buffets file" });
+  }
+
+  const updatedBuffets = buffets.filter((b) => b.buffetId !== buffetId);
+  if (buffets.length === updatedBuffets.length) {
+    return res.status(404).json({ error: "Buffet not found" });
+  }
+
+  fs.writeFileSync(filePath, JSON.stringify(updatedBuffets, null, 2));
+  res.json({ message: "Buffet deleted successfully" });
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
