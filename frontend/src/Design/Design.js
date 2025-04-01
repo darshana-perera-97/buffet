@@ -6,6 +6,7 @@ import HotelDetails from "./HotelDetails";
 import LoginPage from "./LoginPage";
 import Dashboard from "./Dashboard";
 import Buffets from "./Buffets";
+import ManualReservation from "./ManualReservation";
 
 export default function Design() {
   return (
@@ -25,12 +26,14 @@ export default function Design() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/buffets" element={<Buffets />} />
+          <Route path="/manual" element={<ManualReservation />} />
         </Routes>
       </Router>
       {/* <CreateHotel />
       <AllHotels /> */}
       {/* <HotelDetails */}
       {/* <LoginPage /> */}
+      
     </div>
   );
 }
