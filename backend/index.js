@@ -303,7 +303,8 @@ app.delete("/deleteBuffet/:buffetId", (req, res) => {
 });
 
 app.post("/addReservation", (req, res) => {
-  const { buffetName, packs, date, hotelId, contactNumber, email } = req.body;
+  const { buffetName, packs, date, hotelId, contactNumber, email, media } =
+    req.body;
 
   if (!buffetName || !packs || !date || !hotelId || !contactNumber || !email) {
     return res.status(400).json({ error: "Missing fields" });
@@ -325,7 +326,7 @@ app.post("/addReservation", (req, res) => {
     buffetName,
     packs,
     date,
-    media: "manual",
+    media: media || "manual", // ✅ use incoming media if provided
     contactNumber,
     email,
     hotelId,
