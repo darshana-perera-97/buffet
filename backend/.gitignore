@@ -10,7 +10,9 @@
 
 #data
 hotels.json
+users.json
 /hotels.json
+/users.json
 /public/uploads/*
 
 # production
