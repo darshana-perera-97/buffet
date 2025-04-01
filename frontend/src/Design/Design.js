@@ -5,6 +5,7 @@ import AllHotels from "./AllHotels";
 import HotelDetails from "./HotelDetails";
 import LoginPage from "./LoginPage";
 import Dashboard from "./Dashboard";
+import Buffets from "./Buffets";
 
 export default function Design() {
   return (
@@ -23,13 +24,13 @@ export default function Design() {
           <Route path="/hotel/:id" element={<HotelDetails />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/buffets" element={<Buffets />} />
         </Routes>
       </Router>
       {/* <CreateHotel />
       <AllHotels /> */}
       {/* <HotelDetails */}
       {/* <LoginPage /> */}
-      
     </div>
   );
 }

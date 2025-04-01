@@ -64,6 +64,13 @@ function Dashboard() {
       </div>
 
       <h4 className="mt-4">Hotel Details</h4>
+      <Button
+        onClick={() => navigate("/buffets")}
+        variant="success"
+        className="me-2"
+      >
+        Manage Buffets
+      </Button>
 
       {loading ? (
         <Spinner animation="border" />
