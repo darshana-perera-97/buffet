@@ -201,6 +201,34 @@ app.delete("/deleteUser/:userId", (req, res) => {
   res.json({ message: "User deleted successfully" });
 });
 
+// POST /login — authenticate user
+app.post("/login", (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password)
+    return res.status(400).json({ error: "Email and password required" });
+
+  const filePath = "users.json";
+
+  if (!fs.existsSync(filePath))
+    return res.status(404).json({ error: "User data not found" });
+
+  const data = fs.readFileSync(filePath);
+  const users = JSON.parse(data);
+
+  const user = users.find((u) => u.email === email && u.password === password);
+
+  if (!user) return res.status(401).json({ error: "Invalid credentials" });
+
+  res.json({
+    message: "Login successful",
+    userId: user.userId,
+    role: user.role,
+    HotelId: user.HotelId,
+    email: user.email,
+  });
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
