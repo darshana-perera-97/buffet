@@ -302,6 +302,81 @@ app.delete("/deleteBuffet/:buffetId", (req, res) => {
   res.json({ message: "Buffet deleted successfully" });
 });
 
+app.post("/addReservation", (req, res) => {
+  const { buffetName, packs, date, hotelId, contactNumber, email } = req.body;
+
+  if (!buffetName || !packs || !date || !hotelId || !contactNumber || !email) {
+    return res.status(400).json({ error: "Missing fields" });
+  }
+
+  const filePath = "Reservations.json";
+  let reservations = [];
+
+  if (fs.existsSync(filePath)) {
+    try {
+      reservations = JSON.parse(fs.readFileSync(filePath));
+    } catch {
+      reservations = [];
+    }
+  }
+
+  const reservation = {
+    ReservationId: "RES-" + Date.now(),
+    buffetName,
+    packs,
+    date,
+    media: "manual",
+    contactNumber,
+    email,
+    hotelId,
+  };
+
+  reservations.push(reservation);
+  fs.writeFileSync(filePath, JSON.stringify(reservations, null, 2));
+
+  res.json({ message: "Reservation added", reservation });
+});
+
+app.get("/getReservations", (req, res) => {
+  const filePath = "Reservations.json";
+  if (!fs.existsSync(filePath)) return res.json([]);
+  try {
+    const reservations = JSON.parse(fs.readFileSync(filePath));
+    res.json(reservations);
+  } catch {
+    res.status(500).json({ error: "Failed to load reservations" });
+  }
+});
+
+app.put("/updateReservation/:id", (req, res) => {
+  const { id } = req.params;
+  const { buffetName, packs, date, contactNumber, email } = req.body;
+
+  const filePath = "Reservations.json";
+  if (!fs.existsSync(filePath))
+    return res.status(404).json({ error: "Not found" });
+
+  let reservations = JSON.parse(fs.readFileSync(filePath));
+  const index = reservations.findIndex((r) => r.ReservationId === id);
+  if (index === -1)
+    return res.status(404).json({ error: "Reservation not found" });
+
+  reservations[index] = {
+    ...reservations[index],
+    buffetName,
+    packs,
+    date,
+    contactNumber,
+    email,
+  };
+
+  fs.writeFileSync(filePath, JSON.stringify(reservations, null, 2));
+  res.json({
+    message: "Reservation updated",
+    reservation: reservations[index],
+  });
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);

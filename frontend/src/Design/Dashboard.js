@@ -71,6 +71,13 @@ function Dashboard() {
       >
         Manage Buffets
       </Button>
+      <Button
+        onClick={() => navigate("/manual")}
+        variant="success"
+        className="me-2"
+      >
+        Manual Reservation
+      </Button>
 
       {loading ? (
         <Spinner animation="border" />
