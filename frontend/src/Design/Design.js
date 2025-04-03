@@ -31,7 +31,7 @@ export default function Design() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/buffets" element={<Buffets />} />
           <Route path="/manual" element={<ManualReservation />} />
-          <Route path="/land" element={<Landing />} />
+          <Route path="/" element={<Landing />} />
           <Route path="/buffetList" element={<BuffetList />} />
           <Route path="/hotelList" element={<HotelList />} />
           <Route path="/hotels/:id" element={<HotelDetail />} />

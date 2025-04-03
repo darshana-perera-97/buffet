@@ -11,7 +11,7 @@ const CustomNavbar = () => {
           {user ? (
             <Navbar.Text>Welcome, {user.email}</Navbar.Text>
           ) : (
-            <Button variant="outline-primary" href="/login">
+            <Button variant="outline-primary" href="/">
               Login
             </Button>
           )}
