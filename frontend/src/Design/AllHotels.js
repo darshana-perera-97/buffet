@@ -8,17 +8,29 @@ function AllHotels() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const fetchHotels = () => {
     fetch("http://localhost:5111/getHotels")
       .then((res) => res.json())
       .then((data) => {
         setHotels(data);
         setLoading(false);
+        setError(null);
       })
       .catch((err) => {
         setError("Failed to load hotels");
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    // Initial fetch
+    fetchHotels();
+
+    // Set interval to refetch every 1 minute
+    const intervalId = setInterval(fetchHotels, 60000); // 60000ms = 1 min
+
+    // Cleanup interval on unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   const goToDetails = (hotelId) => {

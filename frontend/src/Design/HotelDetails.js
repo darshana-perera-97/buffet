@@ -10,6 +10,7 @@ import {
   Table,
   Modal,
   Form,
+  Card,
 } from "react-bootstrap";
 
 function HotelDetails() {
@@ -20,11 +21,7 @@ function HotelDetails() {
   const [users, setUsers] = useState([]);
 
   const [showModal, setShowModal] = useState(false);
-  const [newUser, setNewUser] = useState({
-    email: "",
-    password: "",
-    role: "",
-  });
+  const [newUser, setNewUser] = useState({ email: "", password: "", role: "" });
   const [addingUser, setAddingUser] = useState(false);
   const [userError, setUserError] = useState(null);
 
@@ -33,11 +30,8 @@ function HotelDetails() {
       .then((res) => res.json())
       .then((data) => {
         const found = data.find((h) => h.HotelId === id);
-        if (found) {
-          setHotel(found);
-        } else {
-          setError("Hotel not found");
-        }
+        if (found) setHotel(found);
+        else setError("Hotel not found");
         setLoading(false);
       })
       .catch(() => {
@@ -61,9 +55,7 @@ function HotelDetails() {
 
     fetch("http://localhost:5111/addUserToHotel", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...newUser, HotelId: id }),
     })
       .then((res) => res.json())
@@ -83,20 +75,13 @@ function HotelDetails() {
   const handleDeleteUser = (userId) => {
     if (!window.confirm("Are you sure you want to delete this user?")) return;
 
-    fetch(`http://localhost:5111/deleteUser/${userId}`, {
-      method: "DELETE",
-    })
+    fetch(`http://localhost:5111/deleteUser/${userId}`, { method: "DELETE" })
       .then((res) => res.json())
       .then((data) => {
-        if (data.error) {
-          alert(data.error);
-        } else {
-          setUsers((prev) => prev.filter((u) => u.userId !== userId));
-        }
+        if (data.error) alert(data.error);
+        else setUsers((prev) => prev.filter((u) => u.userId !== userId));
       })
-      .catch(() => {
-        alert("Failed to delete user");
-      });
+      .catch(() => alert("Failed to delete user"));
   };
 
   if (loading) {
@@ -116,64 +101,83 @@ function HotelDetails() {
   }
 
   return (
-    <Container className="mt-5">
-      <Link to="/">
-        <Button variant="secondary" className="mb-4">
-          ← Back to Hotels
-        </Button>
-      </Link>
-
-      {hotel.FeaturedImage && (
-        <div className="mb-4 text-center">
-          <img
-            src={`http://localhost:5111${hotel.FeaturedImage}`}
-            alt={hotel.HotelName}
-            className="img-fluid rounded shadow-sm"
-            style={{ maxHeight: "400px", objectFit: "cover", width: "100%" }}
-          />
-        </div>
-      )}
-
-      <div className="p-4 border rounded shadow-sm bg-light mb-4">
-        <h2 className="mb-3">{hotel.HotelName}</h2>
-        <Row className="mb-2">
-          <Col md={3}>
-            <strong>Location:</strong>
-          </Col>
-          <Col>{hotel.Location || "N/A"}</Col>
-        </Row>
-        <Row className="mb-2">
-          <Col md={3}>
-            <strong>Contact:</strong>
-          </Col>
-          <Col>{hotel.contactNumber || "N/A"}</Col>
-        </Row>
-        <Row className="mb-2">
-          <Col md={3}>
-            <strong>Status:</strong>
-          </Col>
-          <Col>{hotel.State}</Col>
-        </Row>
-        <Row className="mb-2">
-          <Col md={3}>
-            <strong>Description:</strong>
-          </Col>
-          <Col>{hotel.description || "N/A"}</Col>
-        </Row>
+    <Container className="mt-4">
+      {/* Header with Hotel Name and Back Button */}
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2 className="mb-0">
+          <i className="bi bi-building me-2"></i>
+          {hotel.HotelName}
+        </h2>
+        <Link to="/admin">
+          <Button variant="outline-secondary">
+            <i className="bi bi-arrow-left"></i> Back
+          </Button>
+        </Link>
       </div>
 
-      <div className="mb-3 d-flex justify-content-between align-items-center">
-        <h4>Users</h4>
-        <Button onClick={() => setShowModal(true)}>+ Add User</Button>
+      {/* Hotel Info Card */}
+      <Card className="shadow-sm mb-4">
+        {hotel.FeaturedImage && (
+          <Card.Img
+            variant="top"
+            src={`http://localhost:5111${hotel.FeaturedImage}`}
+            alt={hotel.HotelName}
+            style={{ maxHeight: "400px", objectFit: "cover" }}
+          />
+        )}
+        <Card.Body>
+          <Row className="mb-2">
+            <Col md={3}>
+              <strong>
+                <i className="bi bi-geo-alt-fill me-1"></i>Location:
+              </strong>
+            </Col>
+            <Col>{hotel.Location || "N/A"}</Col>
+          </Row>
+          <Row className="mb-2">
+            <Col md={3}>
+              <strong>
+                <i className="bi bi-telephone-fill me-1"></i>Contact:
+              </strong>
+            </Col>
+            <Col>{hotel.contactNumber || "N/A"}</Col>
+          </Row>
+          <Row className="mb-2">
+            <Col md={3}>
+              <strong>
+                <i className="bi bi-check-circle-fill me-1"></i>Status:
+              </strong>
+            </Col>
+            <Col>{hotel.State}</Col>
+          </Row>
+          <Row>
+            <Col md={3}>
+              <strong>
+                <i className="bi bi-info-circle-fill me-1"></i>Description:
+              </strong>
+            </Col>
+            <Col>{hotel.description || "N/A"}</Col>
+          </Row>
+        </Card.Body>
+      </Card>
+
+      {/* User Management Section */}
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h4 className="mb-0">
+          <i className="bi bi-people-fill me-2"></i>Hotel Users
+        </h4>
+        <Button onClick={() => setShowModal(true)}>
+          <i className="bi bi-person-plus-fill me-1"></i> Add User
+        </Button>
       </div>
 
       {users.length > 0 ? (
-        <Table striped bordered hover responsive>
-          <thead>
+        <Table striped bordered hover responsive className="shadow-sm">
+          <thead className="table-dark">
             <tr>
               <th>Email</th>
               <th>Role</th>
-              <th>Action</th>
+              <th className="text-center">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -181,13 +185,13 @@ function HotelDetails() {
               <tr key={u.userId}>
                 <td>{u.email}</td>
                 <td>{u.role}</td>
-                <td>
+                <td className="text-center">
                   <Button
-                    variant="danger"
+                    variant="outline-danger"
                     size="sm"
                     onClick={() => handleDeleteUser(u.userId)}
                   >
-                    Delete
+                    <i className="bi bi-trash-fill"></i> Delete
                   </Button>
                 </td>
               </tr>
@@ -195,13 +199,17 @@ function HotelDetails() {
           </tbody>
         </Table>
       ) : (
-        <Alert variant="info">No users added for this hotel.</Alert>
+        <Alert variant="info" className="text-center">
+          No users added for this hotel.
+        </Alert>
       )}
 
       {/* Add User Modal */}
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Add User</Modal.Title>
+          <Modal.Title>
+            <i className="bi bi-person-plus-fill me-2"></i>Add Hotel User
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {userError && <Alert variant="danger">{userError}</Alert>}
@@ -214,6 +222,7 @@ function HotelDetails() {
                 onChange={(e) =>
                   setNewUser({ ...newUser, email: e.target.value })
                 }
+                required
               />
             </Form.Group>
             <Form.Group controlId="formPassword" className="mb-3">
@@ -224,28 +233,29 @@ function HotelDetails() {
                 onChange={(e) =>
                   setNewUser({ ...newUser, password: e.target.value })
                 }
+                required
               />
             </Form.Group>
             <Form.Group controlId="formRole" className="mb-3">
               <Form.Label>Role</Form.Label>
-              <Form.Control
-                as="select"
+              <Form.Select
                 value={newUser.role}
                 onChange={(e) =>
                   setNewUser({ ...newUser, role: e.target.value })
                 }
+                required
               >
                 <option value="">Select Role</option>
                 <option value="admin">Admin</option>
                 <option value="manager">Manager</option>
                 <option value="receptionist">Receptionist</option>
-              </Form.Control>
+              </Form.Select>
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button
-            variant="secondary"
+            variant="outline-secondary"
             onClick={() => setShowModal(false)}
             disabled={addingUser}
           >

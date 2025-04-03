@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button, Container, Row, Col, Alert } from "react-bootstrap";
 
-function CreateHotel() {
+function CreateHotel({ onHotelCreated }) {
   const [hotelData, setHotelData] = useState({
     HotelName: "",
     description: "",
@@ -38,6 +38,15 @@ function CreateHotel() {
 
       const data = await res.json();
       setResponse(data);
+
+      if (data?.hotel?.HotelId) {
+        // Show alert with HotelId
+        alert(`Hotel created successfully!\nHotel ID: ${data.hotel.HotelId}`);
+        // Call parent callback to signal that hotel is created
+        if (onHotelCreated) {
+          onHotelCreated();
+        }
+      }
     } catch (err) {
       setResponse({ error: "Failed to connect to backend." });
     }

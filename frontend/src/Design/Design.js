@@ -11,6 +11,7 @@ import Landing from "./User/Landing";
 import BuffetList from "./User/BuffetList";
 import HotelList from "./User/HotelList";
 import HotelDetail from "./User/HotelDetail";
+import SuperAdminPage from "./Pages/SuperAdminPage";
 
 export default function Design() {
   return (
@@ -18,11 +19,10 @@ export default function Design() {
       <Router>
         <Routes>
           <Route
-            path="/"
+            path="/admin"
             element={
               <>
-                <CreateHotel />
-                <AllHotels />
+                <SuperAdminPage />
               </>
             }
           />
