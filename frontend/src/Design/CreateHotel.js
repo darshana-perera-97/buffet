@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Form, Button, Container, Row, Col, Alert } from "react-bootstrap";
 
+import BASE_URL from "./config"; // adjust the path if your file is elsewhere
+
 function CreateHotel({ onHotelCreated }) {
   const [hotelData, setHotelData] = useState({
     HotelName: "",
@@ -31,7 +33,7 @@ function CreateHotel({ onHotelCreated }) {
     }
 
     try {
-      const res = await fetch("http://localhost:5111/createHotel", {
+      const res = await fetch(`${BASE_URL}/createHotel`, {
         method: "POST",
         body: formData,
       });

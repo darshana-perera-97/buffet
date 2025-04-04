@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, Col, Row, Container, Spinner, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import BASE_URL from "./config"; // adjust the path if your file is elsewhere
 
 function AllHotels() {
   const [hotels, setHotels] = useState([]);
@@ -9,7 +10,7 @@ function AllHotels() {
   const navigate = useNavigate();
 
   const fetchHotels = () => {
-    fetch("http://localhost:5111/getHotels")
+    fetch(`${BASE_URL}/getHotels`)
       .then((res) => res.json())
       .then((data) => {
         setHotels(data);
@@ -52,7 +53,7 @@ function AllHotels() {
               {hotel.FeaturedImage && (
                 <Card.Img
                   variant="top"
-                  src={`http://localhost:5111${hotel.FeaturedImage}`}
+                  src={`${BASE_URL}${hotel.FeaturedImage}`}
                   alt={hotel.HotelName}
                   style={{ height: "200px", objectFit: "cover" }}
                 />

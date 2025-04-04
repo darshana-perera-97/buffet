@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Container, Form, Button, Alert, Spinner, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import BASE_URL from "./config"; // adjust the path if your file is elsewhere
 
 function LoginPage() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -13,7 +14,7 @@ function LoginPage() {
     setLoading(true);
     setError(null);
 
-    fetch("http://localhost:5111/login", {
+    fetch(`${BASE_URL}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
