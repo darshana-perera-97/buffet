@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import ReservationModal from "./ReservationModal"; // <-- import modal
+import BASE_URL from "../config"; // adjust the path if your file is elsewhere
 
 const HotelDetail = () => {
   const { id } = useParams(); // HotelId from URL
@@ -12,7 +13,7 @@ const HotelDetail = () => {
 
   useEffect(() => {
     // Fetch hotel details
-    fetch("http://localhost:5111/getHotels")
+    fetch(`${BASE_URL}/getReservations`)
       .then((res) => res.json())
       .then((hotels) => {
         const foundHotel = hotels.find((h) => h.HotelId === id);
@@ -21,7 +22,7 @@ const HotelDetail = () => {
       .catch(() => console.error("Failed to fetch hotel"));
 
     // Fetch buffets for the hotel
-    fetch("http://localhost:5111/getBuffets")
+    fetch(`${BASE_URL}/getBuffets`)
       .then((res) => res.json())
       .then((allBuffets) => {
         const filtered = allBuffets.filter((b) => b.hotelId === id);
@@ -49,7 +50,7 @@ const HotelDetail = () => {
       <Row className="mb-4">
         <Col md={6}>
           <img
-            src={`http://localhost:5111${hotel.FeaturedImage}`}
+            src={`${BASE_URL}${hotel.FeaturedImage}`}
             alt={hotel.HotelName}
             className="img-fluid rounded"
           />

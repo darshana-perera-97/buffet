@@ -13,6 +13,7 @@ import {
   Pagination,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import BASE_URL from "./config"; // adjust the path if your file is elsewhere
 
 function ManualReservation() {
   const navigate = useNavigate();
@@ -49,13 +50,13 @@ function ManualReservation() {
       return;
     }
 
-    fetch("http://localhost:5111/getBuffets")
+    fetch(`${BASE_URL}/getBuffets`)
       .then((res) => res.json())
       .then((data) => {
         setBuffets(data.filter((b) => b.hotelId === hotelId));
       });
 
-    fetch("http://localhost:5111/getReservations")
+    fetch(`${BASE_URL}/getReservations`)
       .then((res) => res.json())
       .then((data) => {
         const filtered = data.filter((r) => r.hotelId === hotelId);
@@ -88,7 +89,7 @@ function ManualReservation() {
       hotelId,
     };
 
-    fetch("http://localhost:5111/addReservation", {
+    fetch(`${BASE_URL}/addReservation`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -123,7 +124,7 @@ function ManualReservation() {
       email,
     };
 
-    fetch(`http://localhost:5111/updateReservation/${editId}`, {
+    fetch(`${BASE_URL}/updateReservation/${editId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),

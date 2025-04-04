@@ -10,6 +10,7 @@ import {
   Badge,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import BASE_URL from "./config"; // adjust the path if your file is elsewhere
 
 function Buffets() {
   const [buffets, setBuffets] = useState([]);
@@ -32,7 +33,7 @@ function Buffets() {
     }
     setHotelId(hotel);
 
-    fetch("http://localhost:5111/getBuffets")
+    fetch(`${BASE_URL}/getBuffets`)
       .then((res) => res.json())
       .then((data) => {
         const hotelBuffets = data.filter((b) => b.hotelId === hotel);
@@ -57,7 +58,7 @@ function Buffets() {
       hotelId,
     };
 
-    fetch("http://localhost:5111/addBuffet", {
+    fetch(`${BASE_URL}/addBuffet`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -78,7 +79,7 @@ function Buffets() {
   const handleDelete = (buffetId) => {
     if (!window.confirm("Are you sure you want to delete this buffet?")) return;
 
-    fetch(`http://localhost:5111/deleteBuffet/${buffetId}`, {
+    fetch(`${BASE_URL}/deleteBuffet/${buffetId}`, {
       method: "DELETE",
     })
       .then((res) => res.json())

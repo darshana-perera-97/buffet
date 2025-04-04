@@ -10,6 +10,7 @@ import {
   Badge,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import BASE_URL from "./config"; // adjust the path if your file is elsewhere
 
 function Dashboard() {
   const [user, setUser] = useState(null);
@@ -28,7 +29,7 @@ function Dashboard() {
     } else {
       setUser({ userId, hotelId, email, role });
 
-      fetch("http://localhost:5111/getHotels")
+      fetch(`${BASE_URL}/getHotels`)
         .then((res) => res.json())
         .then((data) => {
           const found = data.find((h) => h.HotelId === hotelId);
@@ -187,7 +188,7 @@ function Dashboard() {
             {hotel.FeaturedImage && (
               <div className="text-center mt-3">
                 <img
-                  src={`http://localhost:5111${hotel.FeaturedImage}`}
+                  src={`${BASE_URL}${hotel.FeaturedImage}`}
                   alt={hotel.HotelName}
                   className="img-fluid rounded shadow"
                   style={{ maxHeight: "300px", objectFit: "cover" }}

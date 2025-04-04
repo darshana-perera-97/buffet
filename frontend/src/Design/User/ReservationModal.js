@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
+import BASE_URL from "../config"; // adjust the path if your file is elsewhere
 
 const ReservationModal = ({ show, handleClose, buffet, hotelId }) => {
   const [packs, setPacks] = useState(1);
@@ -25,7 +26,7 @@ const ReservationModal = ({ show, handleClose, buffet, hotelId }) => {
       media: "app", // <- as requested
     };
 
-    fetch("http://localhost:5111/addReservation", {
+    fetch(`${BASE_URL}/addReservation`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(reservation),

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import Navbar from "./Navbar";
 import ReservationModal from "./ReservationModal";
+import BASE_URL from "../config"; // adjust the path if your file is elsewhere
 
 const Landing = () => {
   const [hotels, setHotels] = useState([]);
@@ -12,12 +13,12 @@ const Landing = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5111/getHotels")
+    fetch(`${BASE_URL}/getHotels`)
       .then((res) => res.json())
       .then((data) => setHotels(data))
       .catch((err) => console.error("Failed to load hotels:", err));
 
-    fetch("http://localhost:5111/getBuffets")
+    fetch(`${BASE_URL}/getBuffets`)
       .then((res) => res.json())
       .then((data) => {
         const sorted = data.sort((a, b) =>
@@ -73,7 +74,7 @@ const Landing = () => {
                 {hotel.FeaturedImage && (
                   <Card.Img
                     variant="top"
-                    src={`http://localhost:5111${hotel.FeaturedImage}`}
+                    src={`${BASE_URL}${hotel.FeaturedImage}`}
                     alt={hotel.HotelName}
                     style={{ height: "180px", objectFit: "cover" }}
                   />

@@ -12,6 +12,7 @@ import {
   Form,
   Card,
 } from "react-bootstrap";
+import BASE_URL from "./config"; // adjust the path if your file is elsewhere
 
 function HotelDetails() {
   const { id } = useParams();
@@ -26,7 +27,7 @@ function HotelDetails() {
   const [userError, setUserError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5111/getHotels")
+    fetch(`${BASE_URL}/getHotels`)
       .then((res) => res.json())
       .then((data) => {
         const found = data.find((h) => h.HotelId === id);
@@ -41,7 +42,7 @@ function HotelDetails() {
   }, [id]);
 
   useEffect(() => {
-    fetch("http://localhost:5111/getUsers")
+    fetch(`${BASE_URL}/getUsers`)
       .then((res) => res.json())
       .then((data) => {
         const filtered = data.filter((u) => u.HotelId === id);
@@ -53,7 +54,7 @@ function HotelDetails() {
     setAddingUser(true);
     setUserError(null);
 
-    fetch("http://localhost:5111/addUserToHotel", {
+    fetch(`${BASE_URL}/addUserToHotel`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...newUser, HotelId: id }),
@@ -75,7 +76,7 @@ function HotelDetails() {
   const handleDeleteUser = (userId) => {
     if (!window.confirm("Are you sure you want to delete this user?")) return;
 
-    fetch(`http://localhost:5111/deleteUser/${userId}`, { method: "DELETE" })
+    fetch(`${BASE_URL}/deleteUser/${userId}`, { method: "DELETE" })
       .then((res) => res.json())
       .then((data) => {
         if (data.error) alert(data.error);
@@ -120,7 +121,7 @@ function HotelDetails() {
         {hotel.FeaturedImage && (
           <Card.Img
             variant="top"
-            src={`http://localhost:5111${hotel.FeaturedImage}`}
+            src={`${BASE_URL}${hotel.FeaturedImage}`}
             alt={hotel.HotelName}
             style={{ maxHeight: "400px", objectFit: "cover" }}
           />

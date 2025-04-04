@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import BASE_URL from "../config"; // adjust the path if your file is elsewhere
 
 const HotelList = () => {
   const [hotels, setHotels] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5111/getHotels")
+    fetch(`${BASE_URL}/getHotels`)
       .then((res) => res.json())
       .then((data) => setHotels(data))
       .catch((err) => console.error("Error fetching hotels:", err));
@@ -22,7 +23,7 @@ const HotelList = () => {
             <Card className="mb-4">
               <Card.Img
                 variant="top"
-                src={`http://localhost:5111${hotel.FeaturedImage}`}
+                src={`${BASE_URL}${hotel.FeaturedImage}`}
                 style={{ height: "200px", objectFit: "cover" }}
               />
               <Card.Body>
