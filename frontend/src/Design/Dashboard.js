@@ -99,14 +99,14 @@ function Dashboard() {
         <Col md={4} className="mb-3">
           <Card
             className="text-center h-100 shadow-sm"
-            onClick={() => navigate("/manual")}
+            onClick={() => navigate("/reservations")}
             style={{ cursor: "pointer" }}
           >
             <Card.Body>
               <div className="mb-3">
                 <i className="bi bi-pencil-square display-4 text-warning"></i>
               </div>
-              <h5>Manual Reservation</h5>
+              <h5>Reservation</h5>
               <p className="text-muted small">
                 Book or manage reservations manually.
               </p>

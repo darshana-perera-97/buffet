@@ -27,11 +27,11 @@ export default function Design() {
             }
           />
           <Route path="/hotel/:id" element={<HotelDetails />} />
-          <Route path="/login" element={<LoginPage />} />
+          {/* <Route path="/login" element={<LoginPage />} /> */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/buffets" element={<Buffets />} />
           <Route path="/manual" element={<ManualReservation />} />
-          <Route path="/" element={<Landing />} />
+          {/* <Route path="/" element={<Landing />} /> */}
           <Route path="/buffetList" element={<BuffetList />} />
           <Route path="/hotelList" element={<HotelList />} />
           <Route path="/hotels/:id" element={<HotelDetail />} />

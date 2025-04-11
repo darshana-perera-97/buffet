@@ -23,7 +23,7 @@ body {
 
 /* Hero Section */
 .hero-section {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('./Design/Assets/buffet.jpg');
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('./assets/buffet.jpg');
   background-size: cover;
   background-position: center;
   height: 80vh;
@@ -303,86 +303,6 @@ body {
   background: var(--primary-dark);
 }
 
-/* Login Page Styles */
-.login-page {
-  background: linear-gradient(135deg, var(--cream) 0%, #FFFFFF 100%);
-  min-height: 100vh;
-  position: relative;
-  overflow: hidden;
-}
-
-.login-page::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url('./Design/Assets/buffet-pattern.png');
-  background-size: 200px;
-  opacity: 0.05;
-  pointer-events: none;
-}
-
-.login-card {
-  width: 100%;
-  max-width: 450px;
-  border: none;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px var(--shadow);
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-}
-
-.login-card .input-group-text {
-  background-color: var(--cream);
-  border: none;
-  color: var(--purple-dark);
-}
-
-.login-card .form-control {
-  border-left: none;
-  padding: 0.8rem 1rem;
-}
-
-.login-card .form-control:focus {
-  box-shadow: none;
-  border-color: #E0E0E0;
-}
-
-.login-card .btn-primary {
-  background: linear-gradient(45deg, var(--primary), var(--primary-dark));
-  border: none;
-  font-weight: 600;
-  letter-spacing: 1px;
-}
-
-.login-card .btn-primary:hover {
-  background: linear-gradient(45deg, var(--primary-dark), var(--primary));
-  transform: translateY(-2px);
-}
-
-.login-card .section-title {
-  color: var(--purple-dark);
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.login-card .section-title::after {
-  display: none;
-}
-
-/* Responsive adjustments for login page */
-@media (max-width: 576px) {
-  .login-card {
-    margin: 1rem;
-  }
-  
-  .login-card .card-body {
-    padding: 2rem !important;
-  }
-}
-
 /* Navbar Styling */
 .navbar {
   background: linear-gradient(90deg, var(--purple-dark), var(--primary)) !important;
@@ -617,77 +537,6 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-/* Hotel Card Styles */
-.hotel-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: none;
-  border-radius: 15px;
-  overflow: hidden;
-}
-
-.hotel-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.hotel-card .card-img-top {
-  transition: transform 0.3s ease;
-}
-
-.hotel-card:hover .card-img-top {
-  transform: scale(1.05);
-}
-
-/* Badge Styles */
-.badge {
-  padding: 0.5rem 1rem;
-  font-weight: 500;
-  border-radius: 50px;
-}
-
-/* Button Styles in Modals */
-.modal .btn {
-  padding: 0.75rem 1.5rem;
-  font-weight: 500;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.modal .btn-primary {
-  background-color: var(--primary);
-  border: none;
-}
-
-.modal .btn-primary:hover {
-  background-color: var(--primary-dark);
-  transform: translateY(-2px);
-}
-
-.modal .btn-outline-secondary {
-  border: 2px solid #dee2e6;
-  color: #6c757d;
-}
-
-.modal .btn-outline-secondary:hover {
-  background-color: #f8f9fa;
-  border-color: #6c757d;
-  color: #495057;
-}
-
-/* Form Label Styles */
-.modal .form-label {
-  font-weight: 500;
-  color: #495057;
-  margin-bottom: 0.5rem;
-}
-
-/* Loading Spinner in Modal */
-.modal .spinner-border {
-  width: 1.5rem;
-  height: 1.5rem;
-  border-width: 0.2em;
 }
 
 /* Responsive Modal Styles */
