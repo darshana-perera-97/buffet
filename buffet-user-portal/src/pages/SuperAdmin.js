@@ -12,11 +12,11 @@ function SuperAdmin() {
   const [loading, setLoading] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [newHotel, setNewHotel] = useState({
-    name: '',
-    location: '',
+    HotelName: '',
+    Location: '',
     description: '',
     contactNumber: '',
-    image: ''
+    State: 'Active'
   });
   const [addHotelError, setAddHotelError] = useState('');
   const [addHotelSuccess, setAddHotelSuccess] = useState('');
@@ -33,8 +33,10 @@ function SuperAdmin() {
   const fetchHotels = async () => {
     setLoading(true);
     try {
-      // TODO: Replace with actual API call
-      const response = await fetch('/api/hotels');
+      const response = await fetch('http://localhost:5111/getHotels');
+      if (!response.ok) {
+        throw new Error('Failed to fetch hotels');
+      }
       const data = await response.json();
       setHotels(data);
     } catch (error) {
@@ -70,7 +72,7 @@ function SuperAdmin() {
     setAddHotelSuccess('');
 
     try {
-      const response = await fetch('/api/createHotel', {
+      const response = await fetch('http://localhost:5111/createHotel', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -83,15 +85,15 @@ function SuperAdmin() {
       }
 
       const data = await response.json();
-      setHotels([...hotels, data]);
+      setHotels([...hotels, data.hotel]);
       setAddHotelSuccess('Hotel added successfully!');
       setShowAddModal(false);
       setNewHotel({
-        name: '',
-        location: '',
+        HotelName: '',
+        Location: '',
         description: '',
         contactNumber: '',
-        image: ''
+        State: 'Active'
       });
     } catch (error) {
       console.error('Error adding hotel:', error);
@@ -186,17 +188,23 @@ function SuperAdmin() {
                     <th>Name</th>
                     <th>Location</th>
                     <th>Contact</th>
+                    <th>Status</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {hotels.length > 0 ? (
                     hotels.map(hotel => (
-                      <tr key={hotel.id}>
-                        <td>{hotel.id}</td>
-                        <td>{hotel.name}</td>
-                        <td>{hotel.location}</td>
+                      <tr key={hotel.HotelId}>
+                        <td>{hotel.HotelId}</td>
+                        <td>{hotel.HotelName}</td>
+                        <td>{hotel.Location}</td>
                         <td>{hotel.contactNumber}</td>
+                        <td>
+                          <span className={`badge bg-${hotel.State === 'Active' ? 'success' : 'danger'}`}>
+                            {hotel.State}
+                          </span>
+                        </td>
                         <td>
                           <Button variant="outline-primary" size="sm" className="me-2">
                             <i className="fas fa-edit"></i>
@@ -209,7 +217,7 @@ function SuperAdmin() {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="5" className="text-center">No hotels found</td>
+                      <td colSpan="6" className="text-center">No hotels found</td>
                     </tr>
                   )}
                 </tbody>
@@ -240,8 +248,8 @@ function SuperAdmin() {
               <Form.Label>Hotel Name</Form.Label>
               <Form.Control
                 type="text"
-                name="name"
-                value={newHotel.name}
+                name="HotelName"
+                value={newHotel.HotelName}
                 onChange={handleInputChange}
                 required
               />
@@ -250,8 +258,8 @@ function SuperAdmin() {
               <Form.Label>Location</Form.Label>
               <Form.Control
                 type="text"
-                name="location"
-                value={newHotel.location}
+                name="Location"
+                value={newHotel.Location}
                 onChange={handleInputChange}
                 required
               />
@@ -278,14 +286,16 @@ function SuperAdmin() {
               />
             </Form.Group>
             <Form.Group className="mb-4">
-              <Form.Label>Image URL</Form.Label>
-              <Form.Control
-                type="text"
-                name="image"
-                value={newHotel.image}
+              <Form.Label>Status</Form.Label>
+              <Form.Select
+                name="State"
+                value={newHotel.State}
                 onChange={handleInputChange}
-                placeholder="https://example.com/image.jpg"
-              />
+                required
+              >
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </Form.Select>
             </Form.Group>
             <div className="d-grid">
               <Button type="submit" variant="primary">

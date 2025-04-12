@@ -4,6 +4,8 @@ import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import Navbar from "./Navbar";
 import ReservationModal from "./ReservationModal";
 import BASE_URL from "../config";
+import { Link } from 'react-router-dom';
+import './Landing.css';
 
 const Landing = () => {
   const [hotels, setHotels] = useState([]);
@@ -43,25 +45,72 @@ const Landing = () => {
   };
 
   return (
-    <>
-      {/* <Navbar /> */}
-
-      {/* Hero Section */}
+    <div className="landing-page">
       <div className="hero-section">
-        <h1 className="animate__animated animate__fadeInDown">
-          Welcome to <span className="text-accent">Buffet Booking</span>
-        </h1>
-        <p className="animate__animated animate__fadeInUp">
-          Discover hotels and book delicious buffets with ease
-        </p>
-        <Button
-          variant="light"
-          size="lg"
-          className="px-4 py-2 animate__animated animate__zoomIn"
-          onClick={handleViewHotels}
-        >
-          <i className="bi bi-house-door-fill me-2"></i>Explore Hotels
-        </Button>
+        <Container>
+          <Row className="align-items-center min-vh-100">
+            <Col lg={6} className="mb-5 mb-lg-0">
+              <h1 className="hero-title">
+                Discover the Finest
+                <span className="highlight"> Buffet </span>
+                Experiences
+              </h1>
+              <p className="hero-text">
+                Indulge in a world of culinary excellence with our curated selection of 
+                premium buffet experiences at top hotels. Book your perfect dining 
+                experience today.
+              </p>
+              <div className="hero-buttons">
+                <Button 
+                  as={Link} 
+                  to="/hotels" 
+                  className="btn-primary-custom me-3"
+                >
+                  Explore Hotels
+                </Button>
+                <Button 
+                  as={Link} 
+                  to="/buffets" 
+                  variant="outline-light"
+                  className="btn-outline-custom"
+                >
+                  View Buffets
+                </Button>
+              </div>
+              <div className="hero-stats mt-5">
+                <div className="stat-item">
+                  <h3>50+</h3>
+                  <p>Hotels</p>
+                </div>
+                <div className="stat-item">
+                  <h3>100+</h3>
+                  <p>Buffets</p>
+                </div>
+                <div className="stat-item">
+                  <h3>10k+</h3>
+                  <p>Happy Customers</p>
+                </div>
+              </div>
+            </Col>
+            <Col lg={6}>
+              <div className="hero-image-container">
+                <img 
+                  src="/images/hero-buffet.jpg" 
+                  alt="Luxury Buffet" 
+                  className="hero-image"
+                />
+                <div className="floating-card card-1">
+                  <i className="fas fa-star text-warning"></i>
+                  <span>Top Rated</span>
+                </div>
+                <div className="floating-card card-2">
+                  <i className="fas fa-utensils text-primary"></i>
+                  <span>Best Selection</span>
+                </div>
+              </div>
+            </Col>
+          </Row>
+        </Container>
       </div>
 
       {/* Featured Hotels */}
@@ -150,7 +199,7 @@ const Landing = () => {
           hotelId={selectedBuffet.hotelId}
         />
       )}
-    </>
+    </div>
   );
 };
 
